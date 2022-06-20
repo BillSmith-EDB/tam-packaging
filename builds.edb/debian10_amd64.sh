@@ -1,28 +1,5 @@
 #!/bin/bash
 
-cwd=`pwd`
-echo "Add code to build packages here. Currently in directory: $cwd"
-cd tam
-echo "BEGIN: Running configure step"
-./configure --without-readline
-if [ $? -ne 0 ]; then
-    echo "ERROR: configure step failed. Exiting"
-fi      
-echo "END: Running configure step"
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-$0}"; )" &> /dev/null && pwd 2> /dev/null; )";
 
-echo "BEGIN: Running build step"
-make
-if [ $? -ne 0 ]; then
-    echo "ERROR: make step failed. Exiting"
-fi    
-echo "END: Running build step"
-
-echo "BEGIN: Running tests"
-make check
-if [ $? -ne 0 ]; then
-    echo "ERROR: make check step failed. Exiting"
-fi    
-echo "END: Running tests"
-
-mkdir debian
-touch debian/bogus_artifact
+. $SCRIPT_DIR/debian_common.sh
