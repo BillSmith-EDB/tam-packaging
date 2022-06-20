@@ -1,3 +1,9 @@
 #!/bin/bash
 
-echo "Add code to build packages here"
+cwd=`pwd`
+echo "Add code to build packages here. Currently in directory: $cwd"
+
+mkdir debian
+touch debian/bogus/artifact
+
+
