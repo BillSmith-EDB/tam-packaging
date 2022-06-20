@@ -4,7 +4,9 @@ cwd=`pwd`
 echo "Add code to build packages here. Currently in directory: $cwd"
 cd tam
 echo "BEGIN: Running apt-get step to install missing packages"
-sudo apt-get install -y libreadline-dev libreadline8 libghc-zlib-dev
+set -x
+sudo apt-get install -y libreadline-dev libghc-zlib-dev
+set +x
 echo "END: Running apt-get step to install missing packages"
 
 echo "BEGIN: Running configure step"
