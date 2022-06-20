@@ -7,6 +7,7 @@ echo "BEGIN: Running apt-get step to install missing packages"
 set -x
 sudo apt-get install -y libreadline-dev libghc-zlib-dev
 set +x
+
 echo "END: Running apt-get step to install missing packages"
 
 echo "BEGIN: Running configure step"
