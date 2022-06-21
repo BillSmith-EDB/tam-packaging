@@ -1,22 +1,22 @@
 #!/bin/bash
 
 cwd=`pwd`
-echo "Add code to build packages here. Currently in directory: $cwd"
+echo "::group::apt-get installation of missing packages"
 cd tam
-echo "BEGIN: Running apt-get step to install missing packages"
 set -x
 sudo apt-get install -y libreadline-dev libghc-zlib-dev libxml2 libxml2-dev flex bison libz-dev xml2 libxslt1-dev
 set +x
+echo "::endgroup::"
 
-echo "END: Running apt-get step to install missing packages"
 
-echo "BEGIN: Running configure step"
+echo "::group::postgresql configure"
 ./configure --without-readline
 if [ $? -ne 0 ]; then
     echo "ERROR: configure step failed. Exiting"
     exit $?
 fi      
-echo "END: Running configure step"
+echo "::endgroup::"
+
 
 echo "BEGIN: Running build step"
 make
