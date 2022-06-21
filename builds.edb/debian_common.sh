@@ -18,21 +18,21 @@ fi
 echo "::endgroup::"
 
 
-echo "BEGIN: Running build step"
+echo "::group::building postgresql and extensions"
 make
 if [ $? -ne 0 ]; then
     echo "ERROR: make step failed. Exiting"
     exit $?
 fi    
-echo "END: Running build step"
+echo "::endgroup::"
 
-echo "BEGIN: Running tests"
+echo "::group::running tests"
 make check 2>&1  | tee all_tests.log
 if [ $? -ne 0 ]; then
     echo "ERROR: make check step failed. Exiting"
     exit $?
 fi    
-echo "END: Running tests"
+echo "::endgroup::"
 
 cd $cwd
 mkdir -p debian
