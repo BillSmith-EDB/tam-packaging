@@ -14,6 +14,7 @@ echo "BEGIN: Running configure step"
 ./configure --without-readline
 if [ $? -ne 0 ]; then
     echo "ERROR: configure step failed. Exiting"
+    exit $?
 fi      
 echo "END: Running configure step"
 
@@ -21,15 +22,22 @@ echo "BEGIN: Running build step"
 make
 if [ $? -ne 0 ]; then
     echo "ERROR: make step failed. Exiting"
+    exit $?
 fi    
 echo "END: Running build step"
 
 echo "BEGIN: Running tests"
-make check
+make check 2>&1  | tee all_tests.log
 if [ $? -ne 0 ]; then
     echo "ERROR: make check step failed. Exiting"
+    exit $?
 fi    
 echo "END: Running tests"
 
-mkdir debian
+cd $cwd
+mkdir -p debian
 touch debian/bogus_artifact
+ls -l debian
+
+exit 0
+
