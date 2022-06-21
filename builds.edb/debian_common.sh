@@ -5,7 +5,7 @@ echo "Add code to build packages here. Currently in directory: $cwd"
 cd tam
 echo "BEGIN: Running apt-get step to install missing packages"
 set -x
-sudo apt-get install -y libreadline-dev libghc-zlib-dev libxml2 libxml2-dev flex bison zlib2g-dev xml2
+sudo apt-get install -y libreadline-dev libghc-zlib-dev libxml2 libxml2-dev flex bison libz-dev xml2
 set +x
 
 echo "END: Running apt-get step to install missing packages"
