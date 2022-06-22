@@ -5,9 +5,15 @@ echo "::group::environment dump"
 env
 echo "::endgroup::"
 
+if [ -z "$TAM_TYPE" ]; then
+    echo "ERROR: TAM_TYPE environment variable is not set.  Needs to be set to a valid tam"
+    exit 1
+fi
+
 echo "::group::postgresql configure"
 # Need to add --enable-tap-tests and --with-default-tam=refdata
-./configure --without-readline
+cd tam
+./configure --without-readline --with-default-tam=$TAM_TYPE
 if [ $? -ne 0 ]; then
     echo "ERROR: configure step failed. Exiting"
     exit $?
