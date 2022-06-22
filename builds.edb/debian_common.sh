@@ -10,10 +10,18 @@ if [ -z "$TAM_TYPE" ]; then
     exit 1
 fi
 
+echo "::group::apt-get installation of missing packages"
+set -x
+sudo apt-get install -y libreadline-dev libghc-zlib-dev libxml2 libxml2-dev flex bison libz-dev xml2 libxslt1-dev
+set +x
+echo "::endgroup::"
+
 echo "::group::postgresql configure"
 # Need to add --enable-tap-tests and --with-default-tam=refdata
+set -x
 cd tam
-./configure --without-readline --with-default-tam=$TAM_TYPE
+./configure --without-readline --with-alternate-tam=$TAM_TYPE
+set +x
 if [ $? -ne 0 ]; then
     echo "ERROR: configure step failed. Exiting"
     exit $?
