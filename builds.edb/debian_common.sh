@@ -1,15 +1,12 @@
 #!/bin/bash
 
 cwd=`pwd`
-echo "::group::apt-get installation of missing packages"
-cd tam
-set -x
-sudo apt-get install -y libreadline-dev libghc-zlib-dev libxml2 libxml2-dev flex bison libz-dev xml2 libxslt1-dev
-set +x
+echo "::group::environment dump"
+env
 echo "::endgroup::"
 
-
 echo "::group::postgresql configure"
+# Need to add --enable-tap-tests and --with-default-tam=refdata
 ./configure --without-readline
 if [ $? -ne 0 ]; then
     echo "ERROR: configure step failed. Exiting"
@@ -31,7 +28,12 @@ make check 2>&1  | tee all_tests.log
 if [ $? -ne 0 ]; then
     echo "ERROR: make check step failed. Exiting"
     exit $?
-fi    
+fi
+grep --extended-regexp 'All \d+ tests passed' all_tests.log
+if [ $? -ne 0 ]; then
+    echo "ERROR: one or more tests failed. Check the logfile for details"
+    exit $?
+fi
 echo "::endgroup::"
 
 cd $cwd
