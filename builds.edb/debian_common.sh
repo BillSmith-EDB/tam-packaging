@@ -6,7 +6,7 @@ env
 echo "::endgroup::"
 
 if [ -z "$TAM_TYPE" ]; then
-    echo "ERROR: TAM_TYPE environment variable is not set.  Needs to be set to a valid tam"
+    echo "::error:: TAM_TYPE environment variable is not set.  Needs to be set to a valid tam"
     exit 1
 fi
 
@@ -23,7 +23,7 @@ cd tam
 ./configure --without-readline --with-alternate-tam=$TAM_TYPE
 set +x
 if [ $? -ne 0 ]; then
-    echo "ERROR: configure step failed. Exiting"
+    echo "::error:: configure step failed. Exiting"
     exit $?
 fi      
 echo "::endgroup::"
@@ -32,7 +32,7 @@ echo "::endgroup::"
 echo "::group::building postgresql and extensions"
 make
 if [ $? -ne 0 ]; then
-    echo "ERROR: make step failed. Exiting"
+    echo "::error:: make step failed. Exiting"
     exit $?
 fi    
 echo "::endgroup::"
@@ -40,7 +40,7 @@ echo "::endgroup::"
 echo "::group::running tests"
 make check 2>&1  | tee all_tests.log
 if [ $? -ne 0 ]; then
-    echo "ERROR: make check step failed. Exiting"
+    echo "::error:: make check step failed. Exiting"
     exit $?
 fi
 set -x
@@ -48,7 +48,7 @@ grep 'tests passed' all_tests.log
 
 grep --extended-regexp 'All [0-9]+ tests passed' all_tests.log
 if [ $? -ne 0 ]; then
-    echo "ERROR: one or more tests failed:"
+    echo "::error:: one or more tests failed:"
     grep '... FAILED' all_tests.log
     exit $?
 fi
