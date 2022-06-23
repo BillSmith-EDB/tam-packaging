@@ -1,6 +1,8 @@
 #!/bin/bash
 
 cwd=`pwd`
+mkdir -p artifacts
+
 echo "::group::environment dump"
 env
 echo "::endgroup::"
@@ -52,7 +54,7 @@ if [ $? -ne 0 ]; then
     grep '... FAILED' all_tests.log
     echo "### Tests failed" >> $GITHUB_STEP_SUMMARY
     grep '... FAILED' all_tests.log | awk '{print $1}' >> $GITHUB_STEP_SUMMARY
-    
+    cp src/test/regress/regression.out $cwd/artifacts
     exit $?
 fi
 set +x
