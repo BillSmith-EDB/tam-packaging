@@ -50,6 +50,9 @@ grep --extended-regexp 'All [0-9]+ tests passed' all_tests.log
 if [ $? -ne 0 ]; then
     echo "::error:: one or more tests failed:"
     grep '... FAILED' all_tests.log
+    echo "### Tests failed" >> $GITHUB_STEP_SUMMARY
+    grep '... FAILED' all_tests.log | awk '{print $1}' >> $GITHUB_STEP_SUMMARY
+    
     exit $?
 fi
 set +x
