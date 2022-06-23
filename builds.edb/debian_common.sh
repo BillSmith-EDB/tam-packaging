@@ -48,7 +48,8 @@ grep 'tests passed' all_tests.log
 
 grep --extended-regexp 'All [0-9]+ tests passed' all_tests.log
 if [ $? -ne 0 ]; then
-    echo "ERROR: one or more tests failed. Check the logfile for details"
+    echo "ERROR: one or more tests failed:"
+    grep '... FAILED' all_tests.log
     exit $?
 fi
 set +x
